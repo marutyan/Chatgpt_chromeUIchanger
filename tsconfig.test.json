@@ -2,10 +2,14 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "module": "none",
-    "outFile": ".test-dist/manifest.test.js",
+    "outFile": ".test-dist/tests.test.js",
     "noEmitOnError": true
   },
   "files": [
-    "tests/manifest.test.ts"
+    "src/shared/layout-metrics.ts",
+    "src/content/selectors.ts",
+    "tests/manifest.test.ts",
+    "tests/layout-metrics.test.ts",
+    "tests/selectors.test.ts"
   ]
 }
