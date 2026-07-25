@@ -23,7 +23,7 @@ namespace Cguic {
     "hr",
   ].join(",");
 
-  const WIDE_CONTENT_SELECTOR = [
+  const WIDE_SELF_SELECTOR = [
     "pre",
     "table",
     "figure",
@@ -34,6 +34,22 @@ namespace Cguic {
     ".katex-display",
     '[data-testid*="research" i]',
     '[data-testid*="tool" i]',
+  ].join(",");
+
+  const WIDE_DESCENDANT_SELECTOR = [
+    "pre",
+    "table",
+    "figure",
+    '[role="table"]',
+    ".katex-display",
+  ].join(",");
+
+  const WIDE_DIRECT_CHILD_SELECTOR = [
+    ":scope > img",
+    ":scope > svg",
+    ":scope > canvas",
+    ':scope > [data-testid*="research" i]',
+    ':scope > [data-testid*="tool" i]',
   ].join(",");
 
   export interface ContentTargets {
@@ -122,7 +138,8 @@ namespace Cguic {
   }
 
   function isWideContent(element: HTMLElement): boolean {
-    return element.matches(WIDE_CONTENT_SELECTOR)
-      || element.querySelector(WIDE_CONTENT_SELECTOR) !== null;
+    return element.matches(WIDE_SELF_SELECTOR)
+      || element.querySelector(WIDE_DESCENDANT_SELECTOR) !== null
+      || element.querySelector(WIDE_DIRECT_CHILD_SELECTOR) !== null;
   }
 }

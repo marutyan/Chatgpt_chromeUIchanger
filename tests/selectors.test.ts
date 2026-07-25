@@ -104,6 +104,8 @@ namespace SelectorTests {
     const markdown = assistant.append(new FakeElement("div"));
     markdown.classList.add("markdown");
     const paragraph = markdown.append(new FakeElement("p"));
+    const citationButton = paragraph.append(new FakeElement("button"));
+    citationButton.append(new FakeElement("svg"));
     const codeWrapper = markdown.append(new FakeElement("div"));
     codeWrapper.append(new FakeElement("pre"));
 
@@ -126,6 +128,7 @@ namespace SelectorTests {
     assert.equal(assistantFrame.classList.contains("cguic-turn-frame"), true);
     assert.equal(markdown.classList.contains("cguic-content-root"), true);
     assert.equal(paragraph.classList.contains("cguic-text-block"), true);
+    assert.equal(paragraph.classList.contains("cguic-wide-block"), false);
     assert.equal(codeWrapper.classList.contains("cguic-wide-block"), true);
     assert.equal(user.classList.contains("cguic-user-message"), true);
     assert.equal(user.classList.contains("cguic-width-path"), false);
