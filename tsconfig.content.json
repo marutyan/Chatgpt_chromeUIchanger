@@ -7,6 +7,7 @@
   },
   "files": [
     "src/types/chrome.d.ts",
+    "src/shared/layout-metrics.ts",
     "src/content/index.ts"
   ]
 }
