@@ -17,6 +17,10 @@ namespace Cguic {
     "cguic-user-message",
     "cguic-composer",
     "cguic-composer-frame",
+    "cguic-composer-path",
+    "cguic-content-root",
+    "cguic-text-block",
+    "cguic-wide-block",
   ] as const;
 
   export interface TaggedTargets {
@@ -36,8 +40,6 @@ namespace Cguic {
   }
 
   export function tagLayoutTargets(mainRegion: HTMLElement): TaggedTargets {
-    clearTargetClasses(mainRegion);
-
     let assistantMessages = 0;
     let userMessages = 0;
 
@@ -59,6 +61,7 @@ namespace Cguic {
       message.classList.add(`cguic-${role}-message`);
 
       if (role === "assistant") {
+        tagAssistantContent(message);
         assistantMessages += 1;
       } else {
         userMessages += 1;
@@ -67,8 +70,14 @@ namespace Cguic {
 
     const composer = findComposer(mainRegion);
     if (composer !== null) {
+      const composerFrame = findComposerFrame(mainRegion, composer);
       composer.classList.add("cguic-composer");
-      composer.parentElement?.classList.add("cguic-composer-frame");
+      composerFrame?.classList.add("cguic-composer-frame");
+      tagClassPath(
+        composer.parentElement,
+        composerFrame,
+        "cguic-composer-path",
+      );
     }
 
     return {
@@ -96,6 +105,32 @@ namespace Cguic {
     return (input?.closest("form") as HTMLFormElement | null) ?? null;
   }
 
+  function findComposerFrame(
+    mainRegion: HTMLElement,
+    composer: HTMLFormElement,
+  ): HTMLElement | null {
+    let current = composer.parentElement;
+    let frame = current;
+    let depth = 0;
+
+    while (current !== null && current !== mainRegion && depth < 5) {
+      const parent = current.parentElement;
+      if (
+        parent === null
+        || parent === mainRegion
+        || parent.querySelector(MESSAGE_SELECTOR) !== null
+      ) {
+        break;
+      }
+
+      frame = parent;
+      current = parent;
+      depth += 1;
+    }
+
+    return frame;
+  }
+
   function findDirectChildUnder(
     ancestor: HTMLElement,
     descendant: HTMLElement,
@@ -113,10 +148,18 @@ namespace Cguic {
     start: HTMLElement | null,
     stopExclusive: HTMLElement | null,
   ): void {
+    tagClassPath(start, stopExclusive, "cguic-width-path");
+  }
+
+  function tagClassPath(
+    start: HTMLElement | null,
+    stopExclusive: HTMLElement | null,
+    className: string,
+  ): void {
     let current = start;
 
     while (current !== null && current !== stopExclusive) {
-      current.classList.add("cguic-width-path");
+      current.classList.add(className);
       current = current.parentElement;
     }
   }
