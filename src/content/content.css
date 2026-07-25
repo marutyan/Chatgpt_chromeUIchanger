@@ -36,18 +36,6 @@ html[data-cguic-enabled="true"][data-cguic-layout="wide"]
 }
 
 html[data-cguic-enabled="true"][data-cguic-layout="wide"]
-  :where(.cguic-user-turn .cguic-turn-frame) {
-  display: flex;
-  justify-content: flex-end;
-}
-
-html[data-cguic-enabled="true"][data-cguic-layout="wide"]
-  :where(.cguic-user-message) {
-  width: auto;
-  max-width: revert;
-}
-
-html[data-cguic-enabled="true"][data-cguic-layout="wide"]
   :where(.cguic-composer-frame) {
   box-sizing: border-box;
   width: min(
