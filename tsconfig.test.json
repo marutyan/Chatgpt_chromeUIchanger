@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "none",
+    "outFile": ".test-dist/manifest.test.js",
+    "noEmitOnError": true
+  },
+  "files": [
+    "tests/manifest.test.ts"
+  ]
+}
