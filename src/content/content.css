@@ -28,11 +28,40 @@ html[data-cguic-enabled="true"][data-cguic-layout="wide"]
 }
 
 html[data-cguic-enabled="true"][data-cguic-layout="wide"]
-  :where(.cguic-assistant-message) {
+  :where(.cguic-assistant-message, .cguic-content-root) {
+  box-sizing: border-box;
+  width: 100% !important;
+  max-width: var(--cguic-canvas-width) !important;
+  margin-inline: 0 auto !important;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-text-block) {
   box-sizing: border-box;
   width: min(100%, var(--cguic-text-width)) !important;
   max-width: var(--cguic-text-width) !important;
   margin-inline: 0 auto !important;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-wide-block) {
+  box-sizing: border-box;
+  width: 100% !important;
+  max-width: var(--cguic-canvas-width) !important;
+  margin-inline: 0 !important;
+  overflow-x: auto;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-wide-block pre, .cguic-wide-block table, .cguic-wide-block [role="table"], .cguic-wide-block .katex-display) {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-wide-block img, .cguic-wide-block figure, .cguic-wide-block svg, .cguic-wide-block canvas) {
+  max-width: 100%;
+  height: auto;
 }
 
 html[data-cguic-enabled="true"][data-cguic-layout="wide"]
@@ -44,6 +73,12 @@ html[data-cguic-enabled="true"][data-cguic-layout="wide"]
   ) !important;
   max-width: var(--cguic-text-width) !important;
   margin-inline: auto !important;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-composer-path) {
+  width: 100% !important;
+  max-width: none !important;
 }
 
 html[data-cguic-enabled="true"][data-cguic-layout="wide"]

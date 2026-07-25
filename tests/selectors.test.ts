@@ -70,9 +70,7 @@ namespace SelectorTests {
     private matches(selectorList: string): boolean {
       return selectorList.split(",").some((raw) => {
         const selector = raw.trim();
-        if (selector === "main") return this.tagName === "main";
-        if (selector === "article") return this.tagName === "article";
-        if (selector === "form") return this.tagName === "form";
+        if (/^[a-z][a-z0-9-]*$/.test(selector)) return this.tagName === selector;
         if (selector.startsWith(".")) return this.classList.contains(selector.slice(1));
         if (selector === '[data-message-author-role="assistant"]') {
           return this.attributes["data-message-author-role"] === "assistant";
@@ -103,6 +101,13 @@ namespace SelectorTests {
     const assistantFrame = assistantTurn.append(new FakeElement("div"));
     const assistantInner = assistantFrame.append(new FakeElement("div"));
     const assistant = assistantInner.append(new FakeElement("div", { "data-message-author-role": "assistant" }));
+    const markdown = assistant.append(new FakeElement("div"));
+    markdown.classList.add("markdown");
+    const paragraph = markdown.append(new FakeElement("p"));
+    const citationButton = paragraph.append(new FakeElement("button"));
+    citationButton.append(new FakeElement("svg"));
+    const codeWrapper = markdown.append(new FakeElement("div"));
+    codeWrapper.append(new FakeElement("pre"));
 
     const userTurn = main.append(new FakeElement("article", { "data-testid": "conversation-turn-2" }));
     const userFrame = userTurn.append(new FakeElement("div"));
@@ -121,10 +126,18 @@ namespace SelectorTests {
     });
     assert.equal(assistant.classList.contains("cguic-assistant-message"), true);
     assert.equal(assistantFrame.classList.contains("cguic-turn-frame"), true);
+    assert.equal(markdown.classList.contains("cguic-content-root"), true);
+    assert.equal(paragraph.classList.contains("cguic-text-block"), true);
+    assert.equal(paragraph.classList.contains("cguic-wide-block"), false);
+    assert.equal(codeWrapper.classList.contains("cguic-wide-block"), true);
     assert.equal(user.classList.contains("cguic-user-message"), true);
     assert.equal(user.classList.contains("cguic-width-path"), false);
     assert.equal(userFrame.classList.contains("cguic-turn-frame"), true);
     assert.equal(composer.classList.contains("cguic-composer"), true);
     assert.equal(composerFrame.classList.contains("cguic-composer-frame"), true);
+
+    Cguic.clearTargetClasses(main as unknown as HTMLElement);
+    assert.equal(markdown.classList.contains("cguic-content-root"), false);
+    assert.equal(codeWrapper.classList.contains("cguic-wide-block"), false);
   });
 }

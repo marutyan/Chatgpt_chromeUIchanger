@@ -2,41 +2,47 @@
 
 ChatGPTの会話画面を横長ディスプレイへ適応させる、ローカル利用向けChrome拡張です。
 
-## 現在の状態
+## Features
 
-開発基盤のみを提供しています。レスポンシブな幅変更は後続Issueで実装します。
+- ChatGPTのメイン領域幅へ追従するレスポンシブレイアウト
+- 通常本文を画面に応じて最大1200〜1400pxへ拡張
+- コード・表・画像・大型カードを最大1680pxへ拡張
+- Assistant本文と入力欄の左端・幅を統一
+- Userメッセージの右寄せと標準吹き出し幅を維持
+- サイドバー開閉、ウィンドウリサイズ、SPA遷移へ追従
+- PopupからON/OFFを切り替え
 
-## 設計方針
+## Scope and privacy
 
 - 対象は`https://chatgpt.com/*`のみ
-- Manifest V3
-- TypeScript
-- 外部通信なし
-- 会話内容・入力内容を保存しない
 - Chrome権限は`storage`のみ
-- 設定としてON/OFF状態だけを保存
+- 保存する値はON/OFF設定だけ
+- 外部通信、telemetry、analyticsなし
+- 会話本文、入力内容、Cookie、認証情報、添付ファイルを収集・保存しない
 
-## 開発
+## Development
 
-### 必要環境
+### Requirements
 
 - Node.js 22以上
 - npm
 
-### セットアップ
+### Setup
 
 ```bash
 npm install
 ```
 
-### 検証
+### Verification
 
 ```bash
 npm run typecheck
 npm test
 ```
 
-### ビルド
+`npm test`はbuild、生成JavaScriptの構文確認、単体テストを実行します。
+
+### Build
 
 ```bash
 npm run build
@@ -44,19 +50,27 @@ npm run build
 
 成果物は`dist/`へ生成されます。
 
-## Chromeへの読み込み
+## Install in Chrome
 
 1. `chrome://extensions/`を開く
 2. 「デベロッパー モード」を有効にする
 3. 「パッケージ化されていない拡張機能を読み込む」を選ぶ
 4. このリポジトリの`dist/`を指定する
 
-更新後は`npm run build`を実行し、拡張機能一覧から再読み込みしてください。
+更新後は`npm run build`を実行し、拡張機能とChatGPTタブを再読み込みしてください。
 
-## 削除
+## Disable or remove
 
-`chrome://extensions/`から本拡張を削除してください。ChatGPT側へデータや設定は書き込みません。
+PopupのLayoutをOFFにすると、付与したclass、CSS変数、Observerを撤去して標準表示へ戻します。削除する場合は`chrome://extensions/`から本拡張を削除してください。
 
-## Privacy
+## Design documents
 
-本拡張は外部サーバーへ通信しません。会話本文、入力内容、Cookie、認証情報、添付ファイルを収集・保存しません。
+- [Architecture](docs/architecture.md)
+- [Selector policy](docs/selector-policy.md)
+- [Manual smoke test](docs/manual-test.md)
+
+## Known limitations
+
+- ChatGPTの内部DOMは公開APIではないため、UI更新後にselectorの保守が必要になる場合があります
+- 未知のカードは安全側として本文幅で表示します
+- Chrome Web Store配布、モバイル表示、Canvas独立編集領域、`chatgpt.com`以外は対象外です
