@@ -10,6 +10,7 @@
     "src/shared/layout-metrics.ts",
     "src/content/content-targets.ts",
     "src/content/selectors.ts",
+    "src/content/observers.ts",
     "src/content/layout-controller.ts",
     "src/content/index.ts"
   ]

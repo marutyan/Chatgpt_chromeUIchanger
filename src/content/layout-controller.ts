@@ -12,6 +12,7 @@ namespace Cguic {
     private mainRegion: HTMLElement | null = null;
     private resizeObserver: ResizeObserver | null = null;
     private enabled = false;
+    private readonly refreshObserver = new RefreshObserver(() => this.refresh());
     private previousMetricsKey = "";
 
     async initialize(): Promise<void> {
@@ -69,10 +70,12 @@ namespace Cguic {
 
     private enable(): void {
       document.documentElement.setAttribute(ENABLED_ATTRIBUTE, "true");
+      this.refreshObserver.start();
       this.refresh();
     }
 
     private disable(): void {
+      this.refreshObserver.stop();
       this.detachFromMainRegion();
       document.documentElement.removeAttribute(ENABLED_ATTRIBUTE);
       document.documentElement.removeAttribute(LAYOUT_ATTRIBUTE);
