@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "none",
+    "outFile": "dist/content.js",
+    "noEmitOnError": true
+  },
+  "files": [
+    "src/content/index.ts"
+  ]
+}

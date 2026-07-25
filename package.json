@@ -1,0 +1,15 @@
+{
+  "name": "chatgpt-chrome-ui-changer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Responsive wide layout for ChatGPT conversations.",
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "typecheck": "tsc -p tsconfig.content.json --noEmit",
+    "build:ts": "tsc -p tsconfig.content.json",
+    "build": "npm run clean && npm run build:ts && node scripts/copy-static.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
