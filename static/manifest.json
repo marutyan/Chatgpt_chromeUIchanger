@@ -4,6 +4,10 @@
   "version": "0.1.0",
   "description": "Use wide desktop space for ChatGPT conversations without changing message content.",
   "permissions": ["storage"],
+  "action": {
+    "default_title": "ChatGPT Responsive Layout",
+    "default_popup": "popup.html"
+  },
   "content_scripts": [
     {
       "matches": ["https://chatgpt.com/*"],

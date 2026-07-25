@@ -5,8 +5,8 @@
   "description": "Responsive wide layout for ChatGPT conversations.",
   "scripts": {
     "clean": "node scripts/clean.mjs",
-    "typecheck": "tsc -p tsconfig.content.json --noEmit",
-    "build:ts": "tsc -p tsconfig.content.json",
+    "typecheck": "tsc -p tsconfig.content.json --noEmit && tsc -p tsconfig.popup.json --noEmit",
+    "build:ts": "tsc -p tsconfig.content.json && tsc -p tsconfig.popup.json",
     "build": "npm run clean && npm run build:ts && node scripts/copy-static.mjs"
   },
   "devDependencies": {
