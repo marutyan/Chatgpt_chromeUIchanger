@@ -1,4 +1,65 @@
-/*
- * All layout overrides are added in issue-linked changes.
- * Keep this stylesheet inert until the responsive layout controller is enabled.
- */
+html[data-cguic-enabled="true"][data-cguic-layout="wide"] {
+  --cguic-gutter: 32px;
+  --cguic-text-width: 1200px;
+  --cguic-canvas-width: 1400px;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-turn) {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-turn-frame) {
+  box-sizing: border-box;
+  width: min(
+    calc(100% - 2 * var(--cguic-gutter)),
+    var(--cguic-canvas-width)
+  ) !important;
+  max-width: var(--cguic-canvas-width) !important;
+  margin-inline: auto !important;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-width-path) {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-assistant-message) {
+  box-sizing: border-box;
+  width: min(100%, var(--cguic-text-width)) !important;
+  max-width: var(--cguic-text-width) !important;
+  margin-inline: 0 auto !important;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-user-turn .cguic-turn-frame) {
+  display: flex;
+  justify-content: flex-end;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-user-message) {
+  width: auto;
+  max-width: revert;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-composer-frame) {
+  box-sizing: border-box;
+  width: min(
+    calc(100% - 2 * var(--cguic-gutter)),
+    var(--cguic-text-width)
+  ) !important;
+  max-width: var(--cguic-text-width) !important;
+  margin-inline: auto !important;
+}
+
+html[data-cguic-enabled="true"][data-cguic-layout="wide"]
+  :where(.cguic-composer) {
+  width: 100% !important;
+  max-width: none !important;
+}

@@ -1,9 +1,8 @@
 namespace Cguic {
-  const INSTALLED_ATTRIBUTE = "data-cguic-installed";
-
-  export function bootstrap(): void {
-    document.documentElement.setAttribute(INSTALLED_ATTRIBUTE, "true");
+  export async function bootstrap(): Promise<void> {
+    const controller = new LayoutController();
+    await controller.initialize();
   }
 }
 
-Cguic.bootstrap();
+void Cguic.bootstrap();
