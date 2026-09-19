@@ -5,6 +5,7 @@ namespace Cguic {
     private enabled = false;
     private readonly refreshObserver = new RefreshObserver(() => this.refresh());
 
+    // テスト時に実DOM環境（document）に依存せず、擬似要素やモックを用いたレイアウト制御ロジックの検証を可能にするために注入可能としている。
     constructor(
       private readonly targetElement: HTMLElement = getDefaultLayoutTarget(),
       private readonly layoutStyle = new LayoutStyle(),

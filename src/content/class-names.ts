@@ -3,38 +3,36 @@ namespace Cguic {
   // 送信者ごとに異なるスタイル適用と要素識別のために使用する。
   export type MessageRole = "assistant" | "user";
 
-  // ロール別のターン要素に付与するCSSクラス名の対応表。
-  // ロールに応じたクラス名を動的組み立てなしで安全に参照するために定義する。
-  export const ROLE_TURN_CLASSES = {
-    assistant: "cguic-assistant-turn",
-    user: "cguic-user-turn",
-  } as const;
-
-  // ロール別のメッセージ要素に付与するCSSクラス名の対応表。
-  // ロールに応じたクラス名を動的組み立てなしで安全に参照するために定義する。
-  export const ROLE_MESSAGE_CLASSES = {
-    assistant: "cguic-assistant-message",
-    user: "cguic-user-message",
-  } as const;
-
   // 拡張機能がDOM要素へ付与するCSSクラス名の一覧。
   // クラス名の文字列リテラルを一元管理し、付与箇所の分散や命名ブレを防ぐために定義する。
   export const CLASS_NAMES = {
     turn: "cguic-turn",
-    assistantTurn: ROLE_TURN_CLASSES.assistant,
-    userTurn: ROLE_TURN_CLASSES.user,
+    assistantTurn: "cguic-assistant-turn",
+    userTurn: "cguic-user-turn",
     turnFrame: "cguic-turn-frame",
     widthPath: "cguic-width-path",
-    assistantMessage: ROLE_MESSAGE_CLASSES.assistant,
-    userMessage: ROLE_MESSAGE_CLASSES.user,
+    assistantMessage: "cguic-assistant-message",
+    userMessage: "cguic-user-message",
     composer: "cguic-composer",
     composerFrame: "cguic-composer-frame",
     composerPath: "cguic-composer-path",
     contentRoot: "cguic-content-root",
     textBlock: "cguic-text-block",
     wideBlock: "cguic-wide-block",
-    roleTurn: ROLE_TURN_CLASSES,
-    roleMessage: ROLE_MESSAGE_CLASSES,
+  } as const;
+
+  // ロール別のターン要素に付与するCSSクラス名の対応表。
+  // ロールに応じたクラス名を動的組み立てなしで安全に参照するために定義する。
+  export const ROLE_TURN_CLASSES = {
+    assistant: CLASS_NAMES.assistantTurn,
+    user: CLASS_NAMES.userTurn,
+  } as const;
+
+  // ロール別のメッセージ要素に付与するCSSクラス名の対応表。
+  // ロールに応じたクラス名を動的組み立てなしで安全に参照するために定義する。
+  export const ROLE_MESSAGE_CLASSES = {
+    assistant: CLASS_NAMES.assistantMessage,
+    user: CLASS_NAMES.userMessage,
   } as const;
 
   // アシスタントメッセージ本文内の要素に付与されるCSSクラス名群。
@@ -47,21 +45,7 @@ namespace Cguic {
 
   // 拡張機能が付与するすべてのCSSクラス名の配列。
   // 拡張機能の無効化時やメイン領域デタッチ時に、DOMから拡張の変更を完全に除去するために使用する。
-  export const ALL_CGUIC_CLASSES = [
-    CLASS_NAMES.turn,
-    CLASS_NAMES.assistantTurn,
-    CLASS_NAMES.userTurn,
-    CLASS_NAMES.turnFrame,
-    CLASS_NAMES.widthPath,
-    CLASS_NAMES.assistantMessage,
-    CLASS_NAMES.userMessage,
-    CLASS_NAMES.composer,
-    CLASS_NAMES.composerFrame,
-    CLASS_NAMES.composerPath,
-    CLASS_NAMES.contentRoot,
-    CLASS_NAMES.textBlock,
-    CLASS_NAMES.wideBlock,
-  ] as const;
+  export const ALL_CGUIC_CLASSES: readonly string[] = Object.values(CLASS_NAMES);
 
   // 指定されたルート要素自身およびその子孫要素から、指定されたクラス群を除去する。
   // DOMの再タグ付け時やクリーンアップ時に、以前付与したクラスの残留を防ぐために使用する。

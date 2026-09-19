@@ -25,10 +25,10 @@ namespace Cguic {
       }
 
       const frame = findDirectChildUnder(turn, message);
-      turn.classList.add(CLASS_NAMES.turn, CLASS_NAMES.roleTurn[role]);
+      turn.classList.add(CLASS_NAMES.turn, ROLE_TURN_CLASSES[role]);
       frame?.classList.add(CLASS_NAMES.turnFrame);
       tagClassPath(message.parentElement, frame, CLASS_NAMES.widthPath);
-      message.classList.add(CLASS_NAMES.roleMessage[role]);
+      message.classList.add(ROLE_MESSAGE_CLASSES[role]);
 
       if (role === "assistant") {
         tagAssistantContent(message);
