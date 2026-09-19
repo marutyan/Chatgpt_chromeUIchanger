@@ -6,11 +6,16 @@
     "noEmitOnError": true
   },
   "files": [
+    "src/types/chrome.d.ts",
+    "src/shared/enabled-setting.ts",
     "src/shared/layout-metrics.ts",
+    "src/content/layout-style.ts",
     "src/content/content-targets.ts",
     "src/content/selectors.ts",
     "tests/manifest.test.ts",
     "tests/layout-metrics.test.ts",
-    "tests/selectors.test.ts"
+    "tests/selectors.test.ts",
+    "tests/enabled-setting.test.ts",
+    "tests/layout-style.test.ts"
   ]
 }

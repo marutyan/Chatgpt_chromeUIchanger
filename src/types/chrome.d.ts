@@ -4,8 +4,8 @@ interface CguicStorageChange {
 }
 
 interface CguicStorageArea {
-  get(defaultValues: { enabled: boolean }): Promise<{ enabled?: unknown }>;
-  set(values: { enabled: boolean }): Promise<void>;
+  get(defaultValues: Record<string, unknown>): Promise<Record<string, unknown>>;
+  set(values: Record<string, unknown>): Promise<void>;
 }
 
 interface CguicStorageChangeEvent {
