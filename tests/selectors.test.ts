@@ -140,4 +140,45 @@ namespace SelectorTests {
     assert.equal(markdown.classList.contains("cguic-content-root"), false);
     assert.equal(codeWrapper.classList.contains("cguic-wide-block"), false);
   });
+
+  test("clearTargetClasses removes all classes defined in class-names", () => {
+    const expectedClasses = [
+      "cguic-turn",
+      "cguic-assistant-turn",
+      "cguic-user-turn",
+      "cguic-turn-frame",
+      "cguic-width-path",
+      "cguic-assistant-message",
+      "cguic-user-message",
+      "cguic-composer",
+      "cguic-composer-frame",
+      "cguic-composer-path",
+      "cguic-content-root",
+      "cguic-text-block",
+      "cguic-wide-block",
+    ];
+    assert.equal(Cguic.ALL_CGUIC_CLASSES.length, 13);
+    assert.deepEqual([...Cguic.ALL_CGUIC_CLASSES].sort(), [...expectedClasses].sort());
+
+    const root = new FakeElement("main");
+    const elements: FakeElement[] = [root];
+
+    for (const className of Cguic.ALL_CGUIC_CLASSES) {
+      root.classList.add(className);
+      const child = root.append(new FakeElement("div"));
+      child.classList.add(className);
+      const grandchild = child.append(new FakeElement("div"));
+      grandchild.classList.add(className);
+      elements.push(child, grandchild);
+    }
+
+    Cguic.clearTargetClasses(root as unknown as HTMLElement);
+
+    for (const className of Cguic.ALL_CGUIC_CLASSES) {
+      for (const element of elements) {
+        assert.equal(element.classList.contains(className), false);
+      }
+    }
+  });
 }
+

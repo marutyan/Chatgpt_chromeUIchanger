@@ -7,8 +7,10 @@
   },
   "files": [
     "src/shared/layout-metrics.ts",
+    "src/content/class-names.ts",
+    "src/content/dom-queries.ts",
     "src/content/content-targets.ts",
-    "src/content/selectors.ts",
+    "src/content/layout-tagger.ts",
     "tests/manifest.test.ts",
     "tests/layout-metrics.test.ts",
     "tests/selectors.test.ts"

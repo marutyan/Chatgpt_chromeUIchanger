@@ -60,7 +60,7 @@ namespace Cguic {
   export function tagAssistantContent(message: HTMLElement): ContentTargets {
     const root = findContentRoot(message);
     clearContentClasses(message);
-    root.classList.add("cguic-content-root");
+    root.classList.add(CLASS_NAMES.contentRoot);
 
     let textBlocks = 0;
     let wideBlocks = 0;
@@ -69,10 +69,10 @@ namespace Cguic {
       const child = childElement as HTMLElement;
 
       if (isWideContent(child)) {
-        child.classList.add("cguic-wide-block");
+        child.classList.add(CLASS_NAMES.wideBlock);
         wideBlocks += 1;
       } else {
-        child.classList.add("cguic-text-block");
+        child.classList.add(CLASS_NAMES.textBlock);
         textBlocks += 1;
       }
     }
@@ -80,19 +80,10 @@ namespace Cguic {
     return { textBlocks, wideBlocks };
   }
 
+  // アシスタントメッセージ本文内の付与クラスをルート要素自身および子孫から除去する。
+  // メッセージ単位で再タグ付けする際に以前の付与状態をリセットするために使用する。
   export function clearContentClasses(root: ParentNode): void {
-    const rootClassList = (root as ParentNode & { classList?: DOMTokenList }).classList;
-
-    for (const className of [
-      "cguic-content-root",
-      "cguic-text-block",
-      "cguic-wide-block",
-    ]) {
-      rootClassList?.remove(className);
-      for (const element of root.querySelectorAll<HTMLElement>(`.${className}`)) {
-        element.classList.remove(className);
-      }
-    }
+    removeClasses(root, CONTENT_CLASSES);
   }
 
   function findContentRoot(message: HTMLElement): HTMLElement {
