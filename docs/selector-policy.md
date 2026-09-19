@@ -33,4 +33,4 @@
 
 ## Maintenance
 
-ChatGPT更新後に表示が効かない場合は、まず`src/content/selectors.ts`と`src/content/content-targets.ts`を確認する。selectorを追加する場合は、実DOMで複数種類の会話に共通することを確認し、模擬DOMテストを追加する。
+ChatGPT更新後に表示が効かない場合は、まずselector文字列を定義している`src/content/dom-queries.ts`と`src/content/content-targets.ts`を確認する（class付与は`src/content/layout-tagger.ts`、class名は`src/content/class-names.ts`）。selectorを追加する場合は、実DOMで複数種類の会話に共通することを確認し、模擬DOMテストを追加する。

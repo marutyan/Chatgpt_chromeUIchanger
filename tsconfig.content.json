@@ -7,9 +7,13 @@
   },
   "files": [
     "src/types/chrome.d.ts",
+    "src/shared/enabled-setting.ts",
     "src/shared/layout-metrics.ts",
+    "src/content/layout-style.ts",
+    "src/content/class-names.ts",
+    "src/content/dom-queries.ts",
     "src/content/content-targets.ts",
-    "src/content/selectors.ts",
+    "src/content/layout-tagger.ts",
     "src/content/observers.ts",
     "src/content/layout-controller.ts",
     "src/content/index.ts"

@@ -1,35 +1,22 @@
 namespace Cguic {
-  const DEFAULT_ENABLED = true;
-  const ENABLED_ATTRIBUTE = "data-cguic-enabled";
-  const LAYOUT_ATTRIBUTE = "data-cguic-layout";
-  const CSS_VARIABLES = [
-    "--cguic-gutter",
-    "--cguic-text-width",
-    "--cguic-canvas-width",
-  ] as const;
-
   export class LayoutController {
     private mainRegion: HTMLElement | null = null;
     private resizeObserver: ResizeObserver | null = null;
     private enabled = false;
     private readonly refreshObserver = new RefreshObserver(() => this.refresh());
-    private previousMetricsKey = "";
+
+    // テスト時に実DOM環境（document）に依存せず、擬似要素やモックを用いたレイアウト制御ロジックの検証を可能にするために注入可能としている。
+    constructor(
+      private readonly targetElement: HTMLElement = getDefaultLayoutTarget(),
+      private readonly layoutStyle = new LayoutStyle(),
+    ) {}
 
     async initialize(): Promise<void> {
-      const stored = await chrome.storage.local.get({ enabled: DEFAULT_ENABLED });
-      this.setEnabled(
-        typeof stored.enabled === "boolean" ? stored.enabled : DEFAULT_ENABLED,
-      );
+      const initialEnabled = await loadEnabledSetting();
+      this.setEnabled(initialEnabled);
 
-      chrome.storage.onChanged.addListener((changes, areaName) => {
-        if (areaName !== "local") {
-          return;
-        }
-
-        const nextEnabled = changes["enabled"]?.newValue;
-        if (typeof nextEnabled === "boolean") {
-          this.setEnabled(nextEnabled);
-        }
+      subscribeEnabledSetting((nextEnabled) => {
+        this.setEnabled(nextEnabled);
       });
     }
 
@@ -69,7 +56,7 @@ namespace Cguic {
     }
 
     private enable(): void {
-      document.documentElement.setAttribute(ENABLED_ATTRIBUTE, "true");
+      this.layoutStyle.applyEnabled(this.targetElement);
       this.refreshObserver.start();
       this.refresh();
     }
@@ -77,12 +64,7 @@ namespace Cguic {
     private disable(): void {
       this.refreshObserver.stop();
       this.detachFromMainRegion();
-      document.documentElement.removeAttribute(ENABLED_ATTRIBUTE);
-      document.documentElement.removeAttribute(LAYOUT_ATTRIBUTE);
-      for (const variable of CSS_VARIABLES) {
-        document.documentElement.style.removeProperty(variable);
-      }
-      this.previousMetricsKey = "";
+      this.layoutStyle.clear(this.targetElement);
     }
 
     private attachToMainRegion(mainRegion: HTMLElement): void {
@@ -108,34 +90,7 @@ namespace Cguic {
 
     private updateMetrics(mainWidthPx: number): void {
       const metrics = calculateLayoutMetrics(mainWidthPx);
-      const metricsKey = [
-        metrics.gutterPx,
-        metrics.textWidthPx,
-        metrics.canvasWidthPx,
-        metrics.compact,
-      ].join(":");
-
-      if (metricsKey === this.previousMetricsKey) {
-        return;
-      }
-      this.previousMetricsKey = metricsKey;
-
-      document.documentElement.setAttribute(
-        LAYOUT_ATTRIBUTE,
-        metrics.compact ? "compact" : "wide",
-      );
-      document.documentElement.style.setProperty(
-        "--cguic-gutter",
-        `${metrics.gutterPx}px`,
-      );
-      document.documentElement.style.setProperty(
-        "--cguic-text-width",
-        `${metrics.textWidthPx}px`,
-      );
-      document.documentElement.style.setProperty(
-        "--cguic-canvas-width",
-        `${metrics.canvasWidthPx}px`,
-      );
+      this.layoutStyle.applyLayoutMetrics(this.targetElement, metrics);
     }
   }
 }
